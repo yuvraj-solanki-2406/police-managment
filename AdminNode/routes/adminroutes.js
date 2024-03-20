@@ -2,12 +2,13 @@ const express = require('express')
 const { adminLogin, adminRegister } = require('../controllers/adminAuth')
 const { getAllCases, addNewCase, updateCase, deleteCase, singleCaseData } = require('../controllers/adminCases')
 const { getJawanList, registerJawan } = require('../controllers/adminJawan')
-const { validateAdminLogin, validateAdminRegister } = require('../utils/adminAuthValid')
+const { validateLogin, validateAdminRegister } = require('../utils/adminAuthValid')
 const { validateJawanRegistration } = require('../utils/jawansValid')
 const { validateJwtToken } = require('../utils/validateToken')
 
 const multer = require('multer')
 const { getAllCaseCategory, addCaseCategory, deleteCaseCategory, updateCaseCategory, singleCaseCategory } = require('../controllers/adminCaseCategory')
+const viewAllAttendence = require('../controllers/adminAttendence')
 
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
@@ -23,7 +24,7 @@ const router = express.Router()
 
 // Admin Auth Routes
 router.post('/register', validateAdminRegister, adminRegister)
-router.post('/login', validateAdminLogin, adminLogin)
+router.post('/login', validateLogin, adminLogin)
 
 // Admin Jawan Routes
 router.get("/jawans", validateJwtToken, getJawanList);
@@ -43,5 +44,7 @@ router.put('/update_case_category/:id', validateJwtToken, updateCaseCategory)
 router.delete('/delete_case_category/:id', validateJwtToken, deleteCaseCategory)
 router.get('/getsinglecasecate/:id', validateJwtToken, singleCaseCategory)
 
+// Admin view all attendence
+router.get("/attendence", validateJwtToken, viewAllAttendence)
 
 module.exports = router

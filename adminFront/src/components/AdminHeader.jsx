@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { json, Link } from 'react-router-dom';
+import { json, Link, useNavigate } from 'react-router-dom';
 
 function AdminHeader() {
+
+    const navigate = useNavigate();
 
     const checkAuth = () => {
         const adminAuthKey = localStorage.getItem('adminAuthKey')
@@ -24,8 +26,17 @@ function AdminHeader() {
         if (user_data) {
             setUserData(JSON.parse(user_data))
         }
-    }, [])
+    }, []);
 
+    const adminLogout = () => {
+        const adminAuthKey = localStorage.getItem("adminAuthKey")
+        if (adminAuthKey) {
+            localStorage.removeItem("user_data");
+            localStorage.removeItem("adminAuthKey");
+            alert("Logout Successgully")
+            navigate('/admin/login')
+        }
+    }
 
     return (
         <>
@@ -197,15 +208,20 @@ function AdminHeader() {
                                                     <img className="avatar-img rounded-circle shadow" src="assets/images/avatar/01.jpg" alt="avatar" />
                                                 </div>
                                                 <div>
-                                                    <a className="h6 mt-2 mt-sm-0" href="#">{userData ? userData.name: ""}</a>
-                                                    <p className="small m-0">{userData ? userData.email:" "}</p>
+                                                    <a className="h6 mt-2 mt-sm-0" href="#">{userData ? userData.name : ""}</a>
+                                                    <p className="small m-0">{userData ? userData.email : " "}</p>
                                                 </div>
                                             </div>
                                         </li>
                                         <li> <hr className="dropdown-divider" /></li>
                                         {/*<!-- Links -->*/}
-                                        <li><a className="dropdown-item" href="#"><i className="bi bi-person fa-fw me-2"></i>Edit Profile</a></li>
-                                        <li><a className="dropdown-item bg-danger-soft-hover" href="#"><i className="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+                                        <li><a className="dropdown-item" href="#">
+                                            <i className="bi bi-person fa-fw me-2"></i>Edit Profile</a>
+                                        </li>
+                                        <li>
+                                            <a className="dropdown-item bg-danger-soft-hover" onClick={adminLogout}>
+                                                <i className="bi bi-power fa-fw me-2"></i>Sign Out</a>
+                                        </li>
                                         <li> <hr className="dropdown-divider" /></li>
 
                                         {/*<!-- Dark mode switch START -->*/}

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import $ from 'jquery'
+import AdminSidebar from '../components/AdminSidebar';
+import AdminHeader from '../components/AdminHeader';
 
 function AdminCaseCategory() {
     const [caseCate, setCaseCate] = useState([]);
@@ -153,58 +155,72 @@ function AdminCaseCategory() {
 
     return (
         <>
-            <div className="row mb-3">
-                <div className="col-12 d-sm-flex justify-content-between align-items-center">
-                    <h1 className="h3 mb-2 mb-sm-0">Case Category</h1>
-                    <Link to="/admin/addcasecategory" className="btn btn-sm btn-primary mb-0">Add New Case Category</Link>
-                </div>
-            </div>
-            <hr />
-            <div className="card-body px-0">
-                <div className="table-responsive">
-                    <table className="table border" width="100%" id='mytable'></table>
-                </div>
-            </div>
+            <main>
+                {/* Admin Adiebar */}
+                <AdminSidebar />
+                <div className="page-content">
+                    {/* Admin Header */}
+                    <AdminHeader />
 
-            {/* Model for updating the case */}
-            <div className="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <form id="editForm" onSubmit={submitUpdateForm}>
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="editModalLabel">Edit Case Details</h5>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    {/* Page Content Start */}
+                    <div className="page-content-wrapper border">
+                        {/* <!-- Title --> */}
+                        <div className="row mb-3">
+                            <div className="col-12 d-sm-flex justify-content-between align-items-center">
+                                <h1 className="h3 mb-2 mb-sm-0">Case Category</h1>
+                                <Link to="/admin/addcasecategory" className="btn btn-sm btn-primary mb-0">Add New Case Category</Link>
                             </div>
-                            <div className="modal-body">
-                                {/* Id */}
-                                <input type="hidden" className="form-control" id="" name="_id"
-                                    onChange={handleUpdateFormData}
-                                    value={updateCaseCate._id}
-                                />
-                                {/* Title */}
-                                <div className="form-group mb-3">
-                                    <label htmlFor="editTitle">Title</label>
-                                    <input type="text" className="form-control" id="title" name="title"
-                                        onChange={handleUpdateFormData}
-                                        value={updateCaseCate.title}
-                                    />
+                        </div>
+                        <hr />
+                        <div className="card-body px-0">
+                            <div className="table-responsive">
+                                <table className="table border" width="100%" id='mytable'></table>
+                            </div>
+                        </div>
+
+                        {/* Model for updating the case */}
+                        <div className="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                            <div className="modal-dialog" role="document">
+                                <div className="modal-content">
+                                    <form id="editForm" onSubmit={submitUpdateForm}>
+                                        <div className="modal-header">
+                                            <h5 className="modal-title" id="editModalLabel">Edit Case Details</h5>
+                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div className="modal-body">
+                                            {/* Id */}
+                                            <input type="hidden" className="form-control" id="" name="_id"
+                                                onChange={handleUpdateFormData}
+                                                value={updateCaseCate._id}
+                                            />
+                                            {/* Title */}
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="editTitle">Title</label>
+                                                <input type="text" className="form-control" id="title" name="title"
+                                                    onChange={handleUpdateFormData}
+                                                    value={updateCaseCate.title}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="editTitle">Case Category</label>
+                                                <input type="text" className="form-control" id="preference" name="preference"
+                                                    onChange={handleUpdateFormData}
+                                                    value={updateCaseCate.preference}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" className="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="editTitle">Case Category</label>
-                                    <input type="text" className="form-control" id="preference" name="preference"
-                                        onChange={handleUpdateFormData}
-                                        value={updateCaseCate.preference}
-                                    />
-                                </div>
                             </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" className="btn btn-primary" id="saveChangesBtn">Save Changes</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </main>
+
         </>
     )
 }

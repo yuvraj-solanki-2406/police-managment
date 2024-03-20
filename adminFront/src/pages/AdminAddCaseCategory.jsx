@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import AdminSidebar from '../components/AdminSidebar';
+import AdminHeader from '../components/AdminHeader';
 
 function AdminAddCaseCategory() {
     const navigate = useNavigate();
@@ -44,44 +46,56 @@ function AdminAddCaseCategory() {
 
     return (
         <>
-            <div className="card bg-transparent border rounded-3">
-                {/*<!-- Card header -->*/}
-                <div className="card-header bg-transparent border-bottom">
-                    <h3 className="card-header-title mb-0">Add Case Category Details</h3>
-                </div>
-                <div className="card-body">
-                    <form className='row g-4 px-2' method='POST' onSubmit={handleFormSubmit}>
-                        {/*<!-- Case Category Title -->*/}
-                        <div className="col-12">
-                            <label className="form-label">Case Title</label>
-                            <div className="input-group">
-                                <input type="text" className="form-control" name="title"
-                                    placeholder="Murder, Kidnap, etc" onChange={handleFormData}
-                                    value={formData.title} />
+            <main>
+                {/* Admin Adiebar */}
+                <AdminSidebar />
+                <div className="page-content">
+                    {/* Admin Header */}
+                    <AdminHeader />
+
+                    {/* Page Content Start */}
+                    <div className="page-content-wrapper border">
+                        <div className="card bg-transparent border rounded-3">
+                            {/*<!-- Card header -->*/}
+                            <div className="card-header bg-transparent border-bottom">
+                                <h3 className="card-header-title mb-0">Add Case Category Details</h3>
+                            </div>
+                            <div className="card-body">
+                                <form className='row g-4 px-2' method='POST' onSubmit={handleFormSubmit}>
+                                    {/*<!-- Case Category Title -->*/}
+                                    <div className="col-12">
+                                        <label className="form-label">Case Title</label>
+                                        <div className="input-group">
+                                            <input type="text" className="form-control" name="title"
+                                                placeholder="Murder, Kidnap, etc" onChange={handleFormData}
+                                                value={formData.title} />
+                                        </div>
+                                    </div>
+                                    {/*<!-- Case Category Preference -->*/}
+                                    <div className="col-12">
+                                        <label className="form-label">Case Category Preference</label>
+                                        <div className="input-group">
+                                            <select className='form-select' name="preference" id="preference"
+                                                onChange={handleFormData} value={formData.preference}>
+                                                <option value="" disabled defaultValue>Select Case Category Preference</option>
+                                                {
+                                                    categoryPref.map((item, key) => (
+                                                        <option value={item} key={key}>{item}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {/*<!-- Save button -->*/}
+                                    <div className="d-sm-flex justify-content-end">
+                                        <button type="submit" className="btn btn-primary mb-0">Save changes</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        {/*<!-- Case Category Preference -->*/}
-                        <div className="col-12">
-                            <label className="form-label">Case Category Preference</label>
-                            <div className="input-group">
-                                <select className='form-select' name="preference" id="preference"
-                                    onChange={handleFormData} value={formData.preference}>
-                                    <option value="" disabled defaultValue>Select Case Category Preference</option>
-                                    {
-                                        categoryPref.map((item, key) => (
-                                            <option value={item} key={key}>{item}</option>
-                                        ))
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        {/*<!-- Save button -->*/}
-                        <div className="d-sm-flex justify-content-end">
-                            <button type="submit" className="btn btn-primary mb-0">Save changes</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </main>
         </>
     )
 }

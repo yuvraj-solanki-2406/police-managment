@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import AdminSidebar from '../components/AdminSidebar';
+import AdminHeader from '../components/AdminHeader';
 
 function AdminAddCase() {
 
@@ -53,77 +55,91 @@ function AdminAddCase() {
 
     return (
         <>
-            <div className="card bg-transparent border rounded-3">
-                {/*<!-- Card header -->*/}
-                <div className="card-header bg-transparent border-bottom">
-                    <h3 className="card-header-title mb-0">Add Case Details</h3>
-                </div>
-                <div className="card-body">
-                    <form className='row g-4 px-2' method='POST' onSubmit={handleFormSubmit}>
-                        {/*<!-- Case Title -->*/}
-                        <div className="col-12">
-                            <label className="form-label">Case Title</label>
-                            <div className="input-group">
-                                <input type="text" className="form-control" name="title" placeholder="Enter Case Title" onChange={handleFormData} value={formData.title} />
-                            </div>
-                        </div>
-                        {/*<!-- Case Category -->*/}
-                        <div className="col-md-6">
-                            <label className="form-label">Case Category</label>
-                            <div className="input-group">
-                                <select className='form-select' name="caseCategory" id="caseCaegory" onChange={handleFormData} value={formData.caseCategory}>
-                                    <option value="" disabled defaultValue>Select Case Category</option>
-                                    {
-                                        caseCategor.map((item, key) => (
-                                            <option value={item} key={key}>{item}</option>
-                                        ))
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        {/*<!-- Case location -->*/}
-                        <div className="col-md-6">
-                            <label className="form-label">Case Location</label>
-                            <div className="input-group">
-                                <input type="text" className="form-control" name="location" placeholder="Enter Case Location" onChange={handleFormData} value={formData.location} />
-                            </div>
-                        </div>
-                        {/*<!-- Case Date and Time -->*/}
-                        <div className="col-md-6">
-                            <label className="form-label">Case Date Time</label>
-                            <div className="input-group">
-                                <input type="date" className="form-control" name="dateTime" placeholder="Enter Case Date and Time" onChange={handleFormData} value={formData.dateTime} />
-                            </div>
-                        </div>
-                        {/*<!-- Case Date and Time -->*/}
-                        <div className="col-md-6">
-                            <label className="form-label">Task charged Date Time</label>
-                            <div className="input-group">
-                                <input type="date" className="form-control" name="chargeTakenDateTime" placeholder="Enter Date and Time of taking charge" onChange={handleFormData} value={formData.chargeTakenDateTime} />
-                            </div>
-                        </div>
-                        {/*<!-- Case assigned Officer -->*/}
-                        <div className="col-md-6">
-                            <label className="form-label">Assign Jawan</label>
-                            <div className="input-group">
-                                <select className='form-select' name="assignedJawan" id="assignedJawan" onChange={handleFormData} value={formData.assignedJawan}>
-                                    <option value="" disabled defaultValue>Assign Jawan</option>
-                                    {
-                                        assignedJawan.map((item, key) => (
-                                            <option value={item} key={key}>{item}</option>
-                                        ))
-                                    }
-                                </select>
-                            </div>
-                        </div>
 
-                        {/*<!-- Save button -->*/}
-                        <div className="d-sm-flex justify-content-end">
-                            <button type="submit" className="btn btn-primary mb-0">Save changes</button>
+            <main>
+                {/* Admin Adiebar */}
+                <AdminSidebar />
+                <div className="page-content">
+                    {/* Admin Header */}
+                    <AdminHeader />
+
+                    {/* Page Content Start */}
+                    <div className="page-content-wrapper border">
+                        <div className="card bg-transparent border rounded-3">
+                            {/*<!-- Card header -->*/}
+                            <div className="card-header bg-transparent border-bottom">
+                                <h3 className="card-header-title mb-0">Add Case Details</h3>
+                            </div>
+                            <div className="card-body">
+                                <form className='row g-4 px-2' method='POST' onSubmit={handleFormSubmit}>
+                                    {/*<!-- Case Title -->*/}
+                                    <div className="col-12">
+                                        <label className="form-label">Case Title</label>
+                                        <div className="input-group">
+                                            <input type="text" className="form-control" name="title" placeholder="Enter Case Title" onChange={handleFormData} value={formData.title} />
+                                        </div>
+                                    </div>
+                                    {/*<!-- Case Category -->*/}
+                                    <div className="col-md-6">
+                                        <label className="form-label">Case Category</label>
+                                        <div className="input-group">
+                                            <select className='form-select' name="caseCategory" id="caseCaegory" onChange={handleFormData} value={formData.caseCategory}>
+                                                <option value="" disabled defaultValue>Select Case Category</option>
+                                                {
+                                                    caseCategor.map((item, key) => (
+                                                        <option value={item} key={key}>{item}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {/*<!-- Case location -->*/}
+                                    <div className="col-md-6">
+                                        <label className="form-label">Case Location</label>
+                                        <div className="input-group">
+                                            <input type="text" className="form-control" name="location" placeholder="Enter Case Location" onChange={handleFormData} value={formData.location} />
+                                        </div>
+                                    </div>
+                                    {/*<!-- Case Date and Time -->*/}
+                                    <div className="col-md-6">
+                                        <label className="form-label">Case Date Time</label>
+                                        <div className="input-group">
+                                            <input type="date" className="form-control" name="dateTime" placeholder="Enter Case Date and Time" onChange={handleFormData} value={formData.dateTime} />
+                                        </div>
+                                    </div>
+                                    {/*<!-- Case Date and Time -->*/}
+                                    <div className="col-md-6">
+                                        <label className="form-label">Task charged Date Time</label>
+                                        <div className="input-group">
+                                            <input type="date" className="form-control" name="chargeTakenDateTime" placeholder="Enter Date and Time of taking charge" onChange={handleFormData} value={formData.chargeTakenDateTime} />
+                                        </div>
+                                    </div>
+                                    {/*<!-- Case assigned Officer -->*/}
+                                    <div className="col-md-6">
+                                        <label className="form-label">Assign Jawan</label>
+                                        <div className="input-group">
+                                            <select className='form-select' name="assignedJawan" id="assignedJawan" onChange={handleFormData} value={formData.assignedJawan}>
+                                                <option value="" disabled defaultValue>Assign Jawan</option>
+                                                {
+                                                    assignedJawan.map((item, key) => (
+                                                        <option value={item} key={key}>{item}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {/*<!-- Save button -->*/}
+                                    <div className="d-sm-flex justify-content-end">
+                                        <button type="submit" className="btn btn-primary mb-0">Save changes</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </main>
+
         </>
     )
 }

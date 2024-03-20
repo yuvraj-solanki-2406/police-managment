@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import { toast } from 'react-toastify/dist/core'
 
-function AdminLogin() {
-    const BASE_URL = "http://localhost/3000/api/admin"
+function AdminLogin(props) {
     const navigate = useNavigate()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
@@ -12,7 +11,7 @@ function AdminLogin() {
 
     const submitLoginForm = async (e) => {
         e.preventDefault()
-        const res = await fetch("http://localhost:3000/api/admin/login", {
+        const res = await fetch(`http://localhost:3000/api/${props.user_type}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +24,7 @@ function AdminLogin() {
                     localStorage.setItem("adminAuthKey", response.jwtToken);
                     localStorage.setItem("user_data", JSON.stringify(response.user_data));
                     // setAdminAuthKey(response.jwtToken);
-                    navigate('/')
+                    navigate('/admin')
                 }
                 alert(response.message)
             }
@@ -35,10 +34,11 @@ function AdminLogin() {
     useEffect(() => {
         let adminAuthKey = localStorage.getItem("adminAuthKey")
         if (adminAuthKey != null) {
-            navigate('/')
+            navigate('/admin')
         }
     }, [])
 
+    // console.log(props.user_type)
 
     return (
         <>
@@ -53,11 +53,11 @@ function AdminLogin() {
                                 <div className="p-3 p-lg-5">
                                     {/*<!-- Title -->*/}
                                     <div className="text-center">
-                                        <h2 className="fw-bold">Welcome to our largest community</h2>
-                                        <p className="mb-0 h6 fw-light">Let's learn something new today!</p>
+                                        <h2 className="fw-bold">Admin Login</h2>
+                                        <p className="mb-0 h5 fw-light">देश भक्ति जन सेवा</p>
                                     </div>
                                     {/*<!-- SVG Image -->*/}
-                                    <img src="images/02.svg" className="mt-5" alt="" />
+                                    <img src="../../public/images/logo.png" className="mt-5 login_logo_img" alt="" />
                                 </div>
                             </div>
 
@@ -112,11 +112,6 @@ function AdminLogin() {
                                             <div className="col-xxl-6 d-grid">
                                                 <a href="#" className="btn bg-facebook mb-0"><i className="fab fa-fw fa-facebook-f me-2"></i>Signup with Facebook</a>
                                             </div>
-                                        </div>
-
-                                        {/*<!-- Sign up link -->*/}
-                                        <div className="mt-4 text-center">
-                                            <span>Create new account?<a href="sign-in.html"> Sign up here</a></span>
                                         </div>
                                     </div>
                                 </div>

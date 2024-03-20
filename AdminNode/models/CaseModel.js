@@ -9,6 +9,7 @@ const caseSchema = new Schema({
     assignedJawan: { type: String, required: true },
     chargeTakenDateTime: { type: String, default: Date.now() },
     caseRecords: [],
+    completed: { type: String, default: '0' },
     remarks: { type: String }
 });
 

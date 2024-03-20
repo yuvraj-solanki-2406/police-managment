@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import DataTable from 'datatables.net-bs5'
 import $ from 'jquery'
 import { Link, useNavigate } from 'react-router-dom';
+import AdminSidebar from '../components/AdminSidebar';
+import AdminHeader from '../components/AdminHeader';
 
 function AdminCasesList(props) {
     const navigate = useNavigate()
@@ -179,86 +181,100 @@ function AdminCasesList(props) {
 
     return (
         <>
-            <div className="row mb-3">
-                <div className="col-12 d-sm-flex justify-content-between align-items-center">
-                    <h1 className="h3 mb-2 mb-sm-0">Case List</h1>
-                    <Link to="/admin/addcase" className="btn btn-sm btn-primary mb-0">Add New Case</Link>
-                </div>
-            </div>
-            <hr />
-            <div className="card-body px-0">
-                <div className="table-responsive">
-                    <table className="table border" width="100%" id='mytable'></table>
-                </div>
-            </div>
 
-            {/* Model for updating the case */}
-            <div className="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <form id="editForm" onSubmit={handleUpdateForm}>
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="editModalLabel">Edit Case Details</h5>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <main>
+                {/* Admin Adiebar */}
+                <AdminSidebar />
+                <div className="page-content">
+                    {/* Admin Header */}
+                    <AdminHeader />
+
+                    {/* Page Content Start */}
+                    <div className="page-content-wrapper border">
+                        <div className="row mb-3">
+                            <div className="col-12 d-sm-flex justify-content-between align-items-center">
+                                <h1 className="h3 mb-2 mb-sm-0">Case List</h1>
+                                <Link to="/admin/addcase" className="btn btn-sm btn-primary mb-0">Add New Case</Link>
                             </div>
-                            <div className="modal-body">
-                                {/* Id */}
-                                <input type="hidden" className="form-control" id="" name="_id"
-                                    onChange={handleUpdateFormData}
-                                    value={updateCaseData._id}
-                                />
-                                {/* Title */}
-                                <div className="form-group mb-3">
-                                    <label htmlFor="editTitle">Title</label>
-                                    <input type="text" className="form-control" id="title" name="title"
-                                        onChange={handleUpdateFormData}
-                                        value={updateCaseData.title}
-                                    />
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="editTitle">Case Category</label>
-                                    <input type="text" className="form-control" id="caseCategory" name="caseCategory"
-                                        onChange={handleUpdateFormData}
-                                        value={updateCaseData.caseCategory}
-                                    />
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="editTitle">Case Location</label>
-                                    <input type="text" className="form-control" id="caseLocation" name="caseLocation"
-                                        onChange={handleUpdateFormData}
-                                        value={updateCaseData.location}
-                                    />
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="editTitle">Case Date Time</label>
-                                    <input type="text" className="form-control" id="caseDateTime" name="caseDateTime"
-                                        onChange={handleUpdateFormData}
-                                        value={formatDate(updateCaseData.dateTime)}
-                                    />
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="editTitle">Task charged Date Time</label>
-                                    <input type="text" className="form-control" id="chargedDT" name="chargedDT"
-                                        onChange={handleUpdateFormData}
-                                        value={(updateCaseData.chargeTakenDateTime)}
-                                    />
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="editTitle">Assign Jawan</label>
-                                    <input type="text" className="form-control" id="assignedJawan" name="assignedJawan"
-                                        onChange={handleUpdateFormData}
-                                        value={updateCaseData.assignedJawan}
-                                    />
+                        </div>
+                        <hr />
+                        <div className="card-body px-0">
+                            <div className="table-responsive">
+                                <table className="table border" width="100%" id='mytable'></table>
+                            </div>
+                        </div>
+
+                        {/* Model for updating the case */}
+                        <div className="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                            <div className="modal-dialog" role="document">
+                                <div className="modal-content">
+                                    <form id="editForm" onSubmit={handleUpdateForm}>
+                                        <div className="modal-header">
+                                            <h5 className="modal-title" id="editModalLabel">Edit Case Details</h5>
+                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div className="modal-body">
+                                            {/* Id */}
+                                            <input type="hidden" className="form-control" id="" name="_id"
+                                                onChange={handleUpdateFormData}
+                                                value={updateCaseData._id}
+                                            />
+                                            {/* Title */}
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="editTitle">Title</label>
+                                                <input type="text" className="form-control" id="title" name="title"
+                                                    onChange={handleUpdateFormData}
+                                                    value={updateCaseData.title}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="editTitle">Case Category</label>
+                                                <input type="text" className="form-control" id="caseCategory" name="caseCategory"
+                                                    onChange={handleUpdateFormData}
+                                                    value={updateCaseData.caseCategory}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="editTitle">Case Location</label>
+                                                <input type="text" className="form-control" id="caseLocation" name="caseLocation"
+                                                    onChange={handleUpdateFormData}
+                                                    value={updateCaseData.location}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="editTitle">Case Date Time</label>
+                                                <input type="text" className="form-control" id="caseDateTime" name="caseDateTime"
+                                                    onChange={handleUpdateFormData}
+                                                    value={formatDate(updateCaseData.dateTime)}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="editTitle">Task charged Date Time</label>
+                                                <input type="text" className="form-control" id="chargedDT" name="chargedDT"
+                                                    onChange={handleUpdateFormData}
+                                                    value={(updateCaseData.chargeTakenDateTime)}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="editTitle">Assign Jawan</label>
+                                                <input type="text" className="form-control" id="assignedJawan" name="assignedJawan"
+                                                    onChange={handleUpdateFormData}
+                                                    value={updateCaseData.assignedJawan}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" className="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" className="btn btn-primary" id="saveChangesBtn">Save Changes</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </main>
+
 
         </>
     );

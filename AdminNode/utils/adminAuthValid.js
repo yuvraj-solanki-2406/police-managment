@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-const validateAdminLogin = (req, res, next) => {
+const validateLogin = (req, res, next) => {
     const Schema = Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().min(8).required(),
@@ -28,4 +28,4 @@ const validateAdminRegister = (req, res, next) => {
     }
 }
 
-module.exports = { validateAdminLogin, validateAdminRegister }
+module.exports = { validateLogin, validateAdminRegister }

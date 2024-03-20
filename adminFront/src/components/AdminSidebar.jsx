@@ -1,9 +1,20 @@
 import React, { useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 function AdminSidebar() {
 
   // console.log(useLocation().pathname);
+  const navigate = useNavigate();
+
+  const adminLogout = () => {
+    const adminAuthKey = localStorage.getItem("adminAuthKey")
+    if (adminAuthKey) {
+      localStorage.removeItem("user_data");
+      localStorage.removeItem("adminAuthKey");
+      alert("Logout Successgully")
+      navigate('/admin/login')
+    }
+  }
 
   return (
     <>
@@ -43,7 +54,9 @@ function AdminSidebar() {
                   </a>
                   {/*<!-- Submenu -->*/}
                   <ul className={`nav collapse flex-column`} id="collapseinstructors" data-bs-parent="#navbar-sidebar">
-                    <li className="nav-item"> <Link className="nav-link" to="admin/jawanlist">Jawans</Link></li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/admin/jawanlist">Jawans</Link>
+                    </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#">Jawan requests
                         <span className="badge text-bg-success rounded-circle ms-2">2</span>
@@ -63,10 +76,10 @@ function AdminSidebar() {
                   {/*<!-- Submenu -->*/}
                   <ul className={`nav collapse flex-column`} id="collapsecases" data-bs-parent="#navbar-sidebar">
                     <li className="nav-item">
-                      <Link to={'admin/case_category'} className={`nav-link`}>Case Categories</Link>
+                      <Link to={'/admin/case_category'} className={`nav-link`}>Case Categories</Link>
                     </li>
                     <li className="nav-item">
-                      <Link to={'admin/cases'} className={`nav-link`}>Manage Cases</Link>
+                      <Link to={'/admin/cases'} className={`nav-link`}>Manage Cases</Link>
                     </li>
                   </ul>
                 </li>
@@ -102,9 +115,10 @@ function AdminSidebar() {
                   <a className="h5 mb-0 text-body" href="index-2.html" data-bs-toggle="tooltip" data-bs-placement="top" title="Home">
                     <i className="bi bi-globe"></i>
                   </a>
-                  <a className="h5 mb-0 text-body" href="sign-in.html" data-bs-toggle="tooltip" data-bs-placement="top" title="Sign out">
+                  <button type='button' className="h5 mb-0 text-body" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Sign out" onClick={adminLogout}>
                     <i className="bi bi-power"></i>
-                  </a>
+                  </button>
                 </div>
               </div>
               {/*<!-- Sidebar footer END -->*/}
