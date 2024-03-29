@@ -8,10 +8,10 @@ const attendence_schema = new Schema({
     check_in_detail: { type: Date, required: true, default: Date.now() },
     check_out_detail: {
         type: Date,
-        required: true,
-        default: function () {
-            return new Date(this.check_in_detail.getTime() + (8 * 60 * 60 * 1000));
-        }
+        // required: true
+        // default: function () {
+        //     return new Date(this.check_in_detail.getTime() + (8 * 60 * 60 * 1000));
+        // }
     },
     on_leave: { type: Number, default: 0 },
 });

@@ -1,5 +1,7 @@
 import React from 'react'
 
+document.title = "Mp Police"
+
 function HomePage() {
     return (
         <>

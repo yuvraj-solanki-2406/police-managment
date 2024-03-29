@@ -1,5 +1,5 @@
 const express = require('express')
-const markJawanAttendence = require('../controllers/jawan/jawanAttendence')
+const { markJawanAttendence, jawanMonthlyAttendence } = require('../controllers/jawan/jawanAttendence')
 const jawanLogin = require('../controllers/jawan/jawanAuth')
 const { jawanAssignedCases, jawanSingleCaseDetail } = require('../controllers/jawan/jawanCases')
 const { validateLogin } = require('../utils/adminAuthValid')
@@ -14,5 +14,6 @@ router.get("/jawansinglecases/:id", validateJwtToken, jawanSingleCaseDetail)
 
 // Jawan Attendence
 router.post("/mark_attendence", validateJwtToken, markJawanAttendence)
+router.get("/jawan_monthly/:id", validateJwtToken, jawanMonthlyAttendence)
 
 module.exports = router

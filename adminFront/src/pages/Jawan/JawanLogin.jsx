@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { toast } from 'react-toastify/dist/core'
 
-function AdminLogin() {
+function JawanLogin() {
+
     const navigate = useNavigate()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
@@ -11,7 +11,7 @@ function AdminLogin() {
 
     const submitLoginForm = async (e) => {
         e.preventDefault()
-        const res = await fetch(`http://localhost:3000/api/admin/login`, {
+        const res = await fetch(`http://localhost:3000/api/jawan/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -20,21 +20,28 @@ function AdminLogin() {
         });
         res.json().then(
             (response) => {
-                if (response.status == 200) {
-                    localStorage.setItem("adminAuthKey", response.jwtToken);
-                    localStorage.setItem("user_data", JSON.stringify(response.user_data));
+                if (res.status == 200) {
+                    localStorage.setItem("jawanAuthKey", response.jwtToken);
+                    localStorage.setItem("jawan_data", JSON.stringify(response.user_data));
                     // setAdminAuthKey(response.jwtToken);
-                    navigate('/admin')
+                    navigate('/jawan/dashboard')
+                } else {
+                    alert(response.message.details[0].message)
                 }
-                alert(response.message)
+                let adminAuthKey = localStorage.getItem("adminAuthKey")
+                if (adminAuthKey) {
+                    localStorage.removeItem("adminAuthKey")
+                    localStorage.removeItem("user_data")
+                }
             }
         ).catch((err) => console.log(err))
     }
 
     useEffect(() => {
-        let adminAuthKey = localStorage.getItem("adminAuthKey")
-        if (adminAuthKey != null) {
-            navigate('/admin')
+        document.title = "Jawan Login"
+        let jawanAuthKey = localStorage.getItem("jawanAuthKey")
+        if (jawanAuthKey != null) {
+            navigate('/jawan/dashboard')
         }
     }, [])
 
@@ -43,7 +50,6 @@ function AdminLogin() {
             {/*<!-- **************** MAIN CONTENT START **************** -->*/}
             <main>
                 <section className="p-0 d-flex align-items-center position-relative overflow-hidden">
-
                     <div className="container-fluid">
                         <div className="row">
                             {/*<!-- left -->*/}
@@ -51,7 +57,7 @@ function AdminLogin() {
                                 <div className="p-3 p-lg-5">
                                     {/*<!-- Title -->*/}
                                     <div className="text-center">
-                                        <h2 className="fw-bold">Admin Login</h2>
+                                        <h2 className="fw-bold">Jawan Login</h2>
                                         <p className="mb-0 h5 fw-light">देश भक्ति जन सेवा</p>
                                     </div>
                                     {/*<!-- SVG Image -->*/}
@@ -65,8 +71,8 @@ function AdminLogin() {
                                     <div className="col-sm-10 col-xl-8 m-auto">
                                         {/*<!-- Title -->*/}
                                         <img src="assets/images/element/03.svg" className="h-40px mb-2" alt="" />
-                                        <h2>Sign up for your account!</h2>
-                                        <p className="lead mb-4">Nice to see you! Please Sign up with your account.</p>
+                                        <h2>Sign in to your account!</h2>
+                                        <p className="lead mb-4">Nice to see you! Please Sign in with your account.</p>
 
                                         {/*<!-- Form START -->*/}
                                         <form onSubmit={submitLoginForm}>
@@ -89,7 +95,7 @@ function AdminLogin() {
                                             {/*<!-- Button -->*/}
                                             <div className="align-items-center mt-0">
                                                 <div className="d-grid">
-                                                    <button className="btn btn-primary mb-0" type="submit" >Sign Up</button>
+                                                    <button className="btn btn-primary mb-0" type="submit" >Sign In</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -123,4 +129,4 @@ function AdminLogin() {
     )
 }
 
-export default AdminLogin
+export default JawanLogin
