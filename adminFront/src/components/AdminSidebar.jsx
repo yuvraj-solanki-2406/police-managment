@@ -24,8 +24,8 @@ function AdminSidebar() {
 
           {/*<!-- Navbar brand for xl START -->*/}
           <div className="d-flex align-items-center">
-            <a className="navbar-brand" href="index-2.html">
-              <img className="navbar-brand-item" src="../../public/images/logo-light.svg" alt="" />
+            <a className="navbar-brand w-100">
+              <img className="navbar-brand-item" src="../../public/images/logo-long.jpg" alt="" width={'100%'} height={'100px'} />
             </a>
           </div>
           {/*<!-- Navbar brand for xl END -->*/}
@@ -58,9 +58,7 @@ function AdminSidebar() {
                       <Link className="nav-link" to="/admin/jawanlist">Jawans</Link>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" href="#">Jawan requests
-                        <span className="badge text-bg-success rounded-circle ms-2">2</span>
-                      </a>
+                      <Link className="nav-link" to="/admin/jawan/attendence">Jawans Attendence</Link>
                     </li>
                   </ul>
                 </li>

@@ -12,6 +12,9 @@ import HomePage from './pages/common/HomePage'
 import JawanLogin from './pages/Jawan/JawanLogin'
 import JawanDashboard from './pages/Jawan/JawanDashboard'
 import JawanAttendence from './pages/Jawan/JawanAttendence'
+import JawanCases from './pages/Jawan/JawanCases'
+import JawanProfile from './pages/Jawan/JawanProfile'
+import AdminJawanAttendence from './pages/AdminJawanAttendence'
 // import { ToastContainer } from 'react-toastify'
 // import 'react-toastify/dist/ReactToastify.css';
 
@@ -67,6 +70,8 @@ function App() {
           <Route path='login' element={<JawanLogin />}></Route>
           <Route path='dashboard' element={<JawanDashboard />}></Route>
           <Route path='attendence' element={<JawanAttendence />}></Route>
+          <Route path='allcases' element={<JawanCases />}></Route>
+          <Route path='editprofile' element={<JawanProfile />}></Route>
         </Route>
 
         {/* Admin Routes */}
@@ -79,6 +84,7 @@ function App() {
           <Route path='addcase' element={<AdminAddCase />}></Route>
           <Route path='jawanlist' element={<AdminJawanList />}></Route>
           <Route path='addjawan' element={<AdminAddJawan />}></Route>
+          <Route path='jawan/attendence' element={<AdminJawanAttendence />}></Route>
         </Route>
       </Routes>
 

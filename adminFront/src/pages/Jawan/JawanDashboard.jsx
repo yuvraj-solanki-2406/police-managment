@@ -1,17 +1,48 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import JawanHeader from '../../components/Jawan/JawanHeader'
 import JawanSidebar from '../../components/Jawan/JawanSidebar'
 
 function JawanDashboard() {
     const [jawanData, setJawanData] = useState(null)
+    const [jawanCaseData, setJawanCaseData] = useState(null)
+    let count = 1
+    const navigate = useNavigate()
 
     useEffect(() => {
         const jawan_data = localStorage.getItem("jawan_data");
         if (jawan_data !== null) {
             setJawanData(JSON.parse(jawan_data))
-        }
+        } else {
+            navigate('/jawan/login')
+        };
     }, []);
+    // console.log(jawanData);
+    const getAssignedCase = async () => {
+        let j_id = JSON.parse(localStorage.getItem("jawan_data"))._id;
+
+        const response = await fetch(`http://localhost:3000/api/jawan/jawancases/${j_id}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "authorization": localStorage.getItem("jawanAuthKey")
+            }
+        });
+        if (response.status == 200) {
+            response.json().then((res) => {
+                console.log("Response ", res)
+                setJawanCaseData(res);
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+    };
+
+    useEffect(() => {
+        if (jawanData != null) {
+        }
+        getAssignedCase();
+    }, [])
 
     return (
         <>
@@ -136,6 +167,34 @@ function JawanDashboard() {
                                                 <p className="mb-0 h6 fw-light">Completed Cases</p>
                                             </div>
                                         </div>
+                                    </div>
+                                    {/* jawan Cases */}
+                                    <div className="container-fluid p-4">
+                                        <table className='table table-bordered table-hover'>
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Title</th>
+                                                    <th>Case Category</th>
+                                                    <th>Location</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    jawanCaseData ?
+                                                        jawanCaseData.data.map((item, key) => (
+                                                            <tr key={item._id}>
+                                                                <td>{count++}</td>
+                                                                <td>{item.title}</td>
+                                                                <td>{item.caseCategory}</td>
+                                                                <td>{item.location}</td>
+                                                            </tr>
+                                                        ))
+                                                        :
+                                                        <span className='loadingData'>...Loading</span>
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

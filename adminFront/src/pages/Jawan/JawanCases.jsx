@@ -1,77 +1,48 @@
 import React, { useState, useEffect } from 'react'
-import JawanHeader from '../../components/Jawan/JawanHeader'
-import JawanSidebar from '../../components/Jawan/JawanSidebar'
-import Calendar from '../../components/Jawan/Calender'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import JawanSidebar from '../../components/Jawan/JawanSidebar';
+import JawanHeader from '../../components/Jawan/JawanHeader';
 
-function JawanAttendence() {
+function JawanCases() {
     const [jawanData, setJawanData] = useState(null)
+    const [jawanCaseData, setJawanCaseData] = useState(null)
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const jawan_data = localStorage.getItem("jawan_data");
         if (jawan_data !== null) {
             setJawanData(JSON.parse(jawan_data))
-        }
+        } else {
+            navigate('/jawan/login')
+        };
     }, []);
 
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+    const getAssignedCase = async () => {
+        let j_id = JSON.parse(localStorage.getItem("jawan_data"))._id;
 
-    const formattedDate = `${year}-${month}-${day}`;
-    // console.log(formattedDate);
-
-    const options = { timeZone: 'Asia/Kolkata' };
-    let ISTTimestamp = new Date().toLocaleString('en-US', options);
-    // ISTTimestamp = ISTTimestamp.split(", ")[1];
-    // console.log(ISTTimestamp)
-
-
-    const markAttendence = async () => {
-        // Get the Jawan location
-        let u_latitude = 0;
-        let u_longitude = 0;
-
-        navigator.geolocation.getCurrentPosition(async function (position) {
-            u_latitude = position.coords.latitude;
-            u_longitude = position.coords.longitude;
-
-            const formData = {
-                jawan_id: jawanData._id,
-                jawan_name: jawanData.fullname,
-                date: formattedDate,
-                latitude: u_latitude,
-                longitude: u_longitude,
-                check_in_detail: ISTTimestamp,
-                on_leave: 0,
-            };
-
-            try {
-                const response = await fetch("http://localhost:3000/api/jawan/mark_attendence", {
-                    method: "POST",
-                    headers: {
-                        "authorization": localStorage.getItem("jawanAuthKey"),
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-                if (response.status == 200) {
-                    response.json().then((res) => {
-                        alert(res.message)
-                        // alert("Attendence marked successfully")
-                        document.getElementById("check_in_btn").disabled = true
-                    }).catch((error) => {
-                        console.log(error)
-                    })
-                }
-                console.log(response)
-            } catch (error) {
-                console.log(error)
+        const response = await fetch(`http://localhost:3000/api/jawan/jawancases/${j_id}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "authorization": localStorage.getItem("jawanAuthKey")
             }
-            console.log(u_latitude, u_longitude);
         });
-    }
+        if (response.status == 200) {
+            response.json().then((res) => {
+                console.log("Response ", res)
+                setJawanCaseData(res);
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+    };
+
+    useEffect(() => {
+        if (jawanData != null) {
+        }
+        getAssignedCase();
+    }, []);
 
     return (
         <>
@@ -121,12 +92,12 @@ function JawanAttendence() {
                                                     </li>
                                                 </ul>
                                             </div>
-                                            {/* <!-- Button --> */}
+                                            {/* <!-- Button -->
                                             <div className="mt-2 mt-sm-0">
-                                                <Link to='' className="btn btn-outline-primary mb-0">
+                                                <Link to='/jawan/attendence' className="btn btn-outline-primary mb-0">
                                                     Mark Attendence
                                                 </Link>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -146,41 +117,53 @@ function JawanAttendence() {
                     </div>
                 </section>
 
+                {/* main content section */}
                 <section className="pt-0">
                     <div className="container">
                         <div className="row">
                             {/* <!-- Left sidebar START --> */}
                             <JawanSidebar />
 
-                            {/* Right sidebar */}
+                            {/* main content */}
                             <div className="col-xl-9">
-                                <div className="atten_container mb-4 h-25  bg-primary bg-opacity-15 rounded-3">
-                                    <div className="attendence_div d-flex justify-content-between align-items-center h-75">
-                                        <button className='btn btn-danger w-25 mx-3'>
-                                            Check Out
-                                        </button>
-                                        <strong className='text-black text-lg'>
-                                            {new Date().toDateString()}
-                                        </strong>
-                                        <button type='button' onClick={markAttendence} className='btn btn-primary w-25 mx-3' id='check_in_btn'>
-                                            Check In
-                                        </button>
-                                    </div>
-                                    <div className='text-center text-blue'>
-                                        <strong>
-                                            Consistent attendance is the cornerstone of success. Show up, stand out, and make every day count.
-                                        </strong>
-                                    </div>
+                                {/* jawan Cases */}
+                                <h3>Jawan All Cases</h3>
+                                <div className="container-fluid p-1">
+                                    <table className='table table-bordered table-hover'>
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Title</th>
+                                                <th>Case Category</th>
+                                                <th>Location</th>
+                                            </tr>
+                                        </thead>
+                                        {
+                                            jawanCaseData ?
+                                                jawanCaseData.data.map((item, key) => (
+                                                    <tbody>
+                                                        <tr key={item._id}>
+                                                            <td>{1}</td>
+                                                            <td>{item.title}</td>
+                                                            <td>{item.caseCategory}</td>
+                                                            <td>{item.location}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                ))
+                                                :
+                                                <span>
+                                                    ...Loading
+                                                </span>
+                                        }
+                                    </table>
                                 </div>
-                                <Calendar />
                             </div>
                         </div>
                     </div>
                 </section>
-
             </main>
         </>
     )
 }
 
-export default JawanAttendence
+export default JawanCases

@@ -6,10 +6,21 @@ function JawanSidebar() {
 
     const location = useLocation()
     useEffect(() => {
-        console.log(location.pathname.split("/")[2]);
+        // console.log(location.pathname.split("/")[2]);
         const currRoute = location.pathname.split("/")[2];
         setActive(currRoute)
-    }, [location.pathname])
+    }, [location.pathname]);
+
+    const jawanLogout = () => {
+        let jawan_data = localStorage.getItem("jawan_data");
+        let jawan_auth_key = localStorage.getItem("jawanAuthKey");
+        if (jawan_data && jawan_auth_key) {
+            alert("Logout Successfull")
+            localStorage.removeItem("jawan_data")
+            localStorage.removeItem("jawanAuthKey")
+            window.location.href = '/jawan/login'
+        }
+    }
 
     return (
         <>
@@ -35,18 +46,21 @@ function JawanSidebar() {
                                     to="/jawan/attendence">
                                     <i className="bi bi-card-checklist fa-fw me-2"></i>Attendence
                                 </Link>
-                                <a className="list-group-item" href="student-course-list.html">
+                                <Link className={active == 'allcases' ? 'active list-group-item' : 'list-group-item'}
+                                    to='/jawan/allcases' >
                                     <i className="bi bi-basket fa-fw me-2"></i>All Cases
-                                </a>
-                                <a className="list-group-item" href="instructor-edit-profile.html">
+                                </Link>
+                                <Link className={active == 'editprofile' ? 'active list-group-item' : 'list-group-item'}
+                                    to='/jawan/editprofile'>
                                     <i className="bi bi-pencil-square fa-fw me-2"></i>Edit Profile
-                                </a>
+                                </Link>
                                 <a className="list-group-item" href="instructor-delete-account.html">
                                     <i className="bi bi-trash fa-fw me-2"></i>Delete Profile
                                 </a>
-                                <a className="list-group-item text-danger bg-danger-soft-hover" href="#">
+                                <button className="list-group-item text-danger bg-danger-soft-hover d-flex justifyt-content-left"
+                                    onClick={jawanLogout}>
                                     <i className="fas fa-sign-out-alt fa-fw me-2"></i>Sign Out
-                                </a>
+                                </button>
                                 {/* <a className="list-group-item" href="student-course-resume.html">
                                     <i className="far fa-fw fa-file-alt me-2"></i>Course Resume
                                 </a> */}

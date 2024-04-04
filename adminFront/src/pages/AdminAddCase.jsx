@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
@@ -51,7 +51,26 @@ function AdminAddCase() {
             console.log("Error occured in saving case details");
             console.log(error)
         }
-    }
+    };
+
+    const [jawanList, setJawanList] = useState([])
+    const getAllJawans = async () => {
+        const res = await fetch('http://localhost:3000/api/admin/jawans', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": localStorage.getItem("adminAuthKey")
+            }
+        });
+        res.json().then((response) => {
+            setJawanList(response.data);
+            // console.log(response.data)
+        })
+    };
+
+    useEffect(()=>{
+        getAllJawans()
+    },[]);
 
     return (
         <>
@@ -121,8 +140,8 @@ function AdminAddCase() {
                                             <select className='form-select' name="assignedJawan" id="assignedJawan" onChange={handleFormData} value={formData.assignedJawan}>
                                                 <option value="" disabled defaultValue>Assign Jawan</option>
                                                 {
-                                                    assignedJawan.map((item, key) => (
-                                                        <option value={item} key={key}>{item}</option>
+                                                    jawanList.map((item, key) => (
+                                                        <option value={item._id} key={key}>{item.fullname}</option>
                                                     ))
                                                 }
                                             </select>

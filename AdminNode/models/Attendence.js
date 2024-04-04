@@ -13,6 +13,8 @@ const attendence_schema = new Schema({
         //     return new Date(this.check_in_detail.getTime() + (8 * 60 * 60 * 1000));
         // }
     },
+    latitude: { type: Number },
+    longitude: { type: Number },
     on_leave: { type: Number, default: 0 },
 });
 

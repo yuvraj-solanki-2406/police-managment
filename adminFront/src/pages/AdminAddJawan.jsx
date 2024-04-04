@@ -2,6 +2,16 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
+import { uploadImage, saveImageUrlToDatabase } from '../firebaseUtils'
+import {
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    listAll,
+    list,
+} from "firebase/storage";
+import { storage } from "../firebase";
+// import { v4 } from "uuid";
 
 
 function AdminAddJawan() {
@@ -26,6 +36,9 @@ function AdminAddJawan() {
         totalCases: "",
         profilePhoto: ""
     });
+    const [image, setImage] = useState(null);
+    const [imageUpload, setImageUpload] = useState(null);
+    const [imageUrls, setImageUrls] = useState();
 
     const handleFormData = (e) => {
         const { name, value } = e.target;
@@ -35,16 +48,38 @@ function AdminAddJawan() {
         }));
     };
 
+    const handleImageChange = (e) => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0]);
+        }
+    };
+    let img_url;
+    const uploadFile = () => {
+        if (imageUpload == null) return;
+        const imageRef = ref(storage, `images/${imageUpload.name + Date.now()}`);
+        uploadBytes(imageRef, imageUpload)
+            .then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((url) => {
+                    // setImageUrls((prev) => [...prev, url]);
+                    // img_url = url || "url pending"
+                    setImageUrls(url);
+                });
+            });
+    };
+
     const handleSubmitFormData = async (e) => {
         e.preventDefault();
         if (formData.fullname != "" && formData.email != "" &&
             formData.password != "" && formData.phone != "" &&
-            formData.address != "" && formData.addharCard != "" &&
-            formData.profilePhoto != ""
+            formData.address != "" && formData.addharCard != ""
         ) {
             formData.totalCases = parseInt(formData.pendingCases) + parseInt(formData.solvedCases)
             console.log(formData);
             try {
+                uploadFile();
+                // let img = imageUrls[imageUrls.length - 1]
+                console.log(imageUrls, " --> ", img_url)
+                formData.profilePhoto = imageUrls;
                 const res = await fetch('http://localhost:3000/api/admin/addjawan', {
                     method: "POST",
                     headers: {
@@ -100,14 +135,16 @@ function AdminAddJawan() {
                                             <label className="position-relative me-4" htmlFor="uploadfile-1" title="Replace this pic">
                                                 {/*<!-- Avatar place holder -->*/}
                                                 <span className="avatar avatar-xl">
-                                                    <img id="uploadfile-1-preview" className="avatar-img rounded-circle border border-white border-3 shadow" src="assets/images/avatar/07.jpg" alt="" />
+                                                    <img id="uploadfile-1-preview" className="avatar-img rounded-circle border border-white border-3 shadow"
+                                                        src="../../public/images/08.jpg" alt="" />
                                                 </span>
                                                 {/*<!-- Remove btn -->*/}
                                                 <button type="button" className="uploadremove"><i className="bi bi-x text-white"></i></button>
                                             </label>
                                             {/*<!-- Upload button -->*/}
                                             <label className="btn btn-primary-soft mb-0" htmlFor="uploadfile-1">Change</label>
-                                            <input id="uploadfile-1" name='profilePhoto' className="form-control d-none" type="file" onChange={handleFormData} />
+                                            <input id="uploadfile-1" name='profilePhoto' className="form-control d-none" type="file"
+                                                onChange={(e) => { setImageUpload(e.target.files[0]) }} />
                                         </div>
                                     </div>
 
@@ -115,7 +152,8 @@ function AdminAddJawan() {
                                     <div className="col-12">
                                         <label className="form-label">Full name</label>
                                         <div className="input-group">
-                                            <input type="text" className="form-control" name="fullname" placeholder="Full name" onChange={handleFormData} value={formData.fullname} />
+                                            <input type="text" className="form-control" name="fullname" placeholder="Full name"
+                                                onChange={handleFormData} value={formData.fullname} />
                                             {/* <input type="text" className="form-control" name="last_name" placeholder="Last name" /> */}
                                         </div>
                                     </div>

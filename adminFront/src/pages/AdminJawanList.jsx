@@ -15,7 +15,7 @@ function AdminJawanList() {
         });
         res.json().then((response) => {
             setJawanList(response.data);
-            console.log(response.data)
+            // console.log(response.data)
         })
     }
 
@@ -27,6 +27,32 @@ function AdminJawanList() {
         solvedCases = parseInt(solvedCases)
         totalCases = parseInt(totalCases)
         return (Math.round((solvedCases / totalCases) * 100))
+    }
+
+    // Delete Jawan
+    const deleteJawan = async (id) => {
+        try {
+            const response = await fetch('http://localhost:3000/api/admin/deletejawan', {
+                method: 'delete',
+                headers: {
+                    "authorization": localStorage.getItem("adminAuthKey"),
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({ id: id })
+            });
+            if (response.ok) {
+                const res = await response.json()
+                alert(res.message);
+                if (response.status == 200) {
+                    getAllJawans()
+                }
+            } else {
+                console.log("Error", response.status)
+            }
+        } catch (error) {
+            alert(error)
+        }
+        // alert(id)
     }
 
     return (
@@ -63,7 +89,8 @@ function AdminJawanList() {
                                                                 <div className="d-sm-flex align-items-center">
                                                                     {/* <!-- Avatar --> */}
                                                                     <div className="avatar avatar-md flex-shrink-0">
-                                                                        <img className="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="avatar" />
+                                                                        <img className="avatar-img rounded-circle"
+                                                                            src={item.profilePhoto || ""} alt="avatar" />
                                                                     </div>
                                                                     {/* <!-- Info --> */}
                                                                     <div className="ms-0 ms-sm-2 mt-2 mt-sm-0">
@@ -81,8 +108,9 @@ function AdminJawanList() {
                                                                     </a>
                                                                     {/* <!-- dropdown button --> */}
                                                                     <ul className="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare2">
-                                                                        <li><a className="dropdown-item" href="#"><i className="bi bi-pencil-square fa-fw me-2"></i>Edit</a></li>
-                                                                        <li><a className="dropdown-item" href="#"><i className="bi bi-trash fa-fw me-2"></i>Remove</a></li>
+                                                                        <li><button type='button' className="dropdown-item" onClick={() => deleteJawan(item._id)}>
+                                                                            <i className="bi bi-trash fa-fw me-2"></i>Delete</button>
+                                                                        </li>
                                                                     </ul>
                                                                 </div>
                                                             </div>

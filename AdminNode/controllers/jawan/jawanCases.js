@@ -8,7 +8,7 @@ const jawanAssignedCases = async (req, res) => {
         let assigned_cases = []
         all_cases.forEach((item) => {
             if (item.assignedJawan === jawan_id) {
-                console.log(jawan_id)
+                // console.log(jawan_id)
                 assigned_cases.push(item)
             }
         });

@@ -1,6 +1,7 @@
 const attendencemodel = require('../../models/Attendence')
 const jawanModel = require('../../models/JawansModel')
 
+
 const markJawanAttendence = async (req, res) => {
     try {
         const formData = req.body
@@ -17,6 +18,8 @@ const markJawanAttendence = async (req, res) => {
                 check_in_detail: formData.check_in_detail,
                 check_out_detail: formData.check_out_detail,
                 on_leave: formData.on_leave,
+                latitude: formData.latitude,
+                longitude: formData.longitude,
             });
 
             let data_res = await newAttendance.save(formData)
@@ -29,6 +32,7 @@ const markJawanAttendence = async (req, res) => {
             res.status(200).json({ message: "Attendence already marked" })
         }
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: "internal server error", error: error })
     }
 }
