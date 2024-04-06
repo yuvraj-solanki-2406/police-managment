@@ -15,6 +15,9 @@ import JawanAttendence from './pages/Jawan/JawanAttendence'
 import JawanCases from './pages/Jawan/JawanCases'
 import JawanProfile from './pages/Jawan/JawanProfile'
 import AdminJawanAttendence from './pages/AdminJawanAttendence'
+import Community from './pages/common/Community'
+import Complain from './pages/common/Complain'
+import FakeNews from './pages/common/FakeNews'
 // import { ToastContainer } from 'react-toastify'
 // import 'react-toastify/dist/ReactToastify.css';
 
@@ -64,6 +67,9 @@ function App() {
       {/* Page Contents */}
       <Routes>
         <Route path='/' element={<HomePage />}></Route>
+        <Route path='/community' element={<Community />}></Route>
+        <Route path='/complain' element={<Complain />}></Route>
+        <Route path='/fakenews' element={<FakeNews />}></Route>
 
         {/* Jawan Routes */}
         <Route path='jawan'>

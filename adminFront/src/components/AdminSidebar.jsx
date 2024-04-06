@@ -87,35 +87,41 @@ function AdminSidebar() {
                   <i className="fas fa-user fa-fw me-2"></i>Reserve Forces</a>
                 </li>
 
-                {/*<!-- Menu item 5 -->*/}
-                <li className="nav-item"> <a className="nav-link" href="admin-review.html"><i className="far fa-comment-dots fa-fw me-2"></i>Reviews</a></li>
+                <li className="nav-item">
+                  <a className="nav-link" href="admin-setting.html">
+                    <i className="fas fa-user-cog fa-fw me-2"></i>Admin Settings</a>
+                </li>
 
-                {/*<!-- Menu item 6 -->*/}
-                <li className="nav-item"> <a className="nav-link" href="admin-earning.html"><i className="far fa-chart-bar fa-fw me-2"></i>Earnings</a></li>
+                {/* <li className="nav-item">
+                  <a className="nav-link" href="admin-review.html">
+                    <i className="far fa-comment-dots fa-fw me-2"></i>Reviews</a>
+                </li>
 
-                {/*<!-- Menu item 7 -->*/}
-                <li className="nav-item"> <a className="nav-link" href="admin-setting.html"><i className="fas fa-user-cog fa-fw me-2"></i>Admin Settings</a></li>
+                <li className="nav-item">
+                  <a className="nav-link" href="admin-earning.html">
+                    <i className="far fa-chart-bar fa-fw me-2"></i>Earnings</a>
+                </li>
 
-                {/*<!-- Title -->*/}
                 <li className="nav-item ms-2 my-2">Documentation</li>
 
-                {/*<!-- Menu item 10 -->*/}
-                <li className="nav-item"> <a className="nav-link" href="docs/changelog.html"><i className="fas fa-sitemap fa-fw me-2"></i>Changelog</a></li>
+                <li className="nav-item">
+                  <a className="nav-link" href="docs/changelog.html">
+                    <i className="fas fa-sitemap fa-fw me-2"></i>Changelog</a>
+                </li> */}
               </ul>
               {/*<!-- Sidebar menu end -->*/}
 
               {/*<!-- Sidebar footer START -->*/}
               <div className="px-3 mt-auto pt-3">
+                <hr />
                 <div className="d-flex align-items-center justify-content-between text-primary-hover">
-                  <a className="h5 mb-0 text-body" href="admin-setting.html" data-bs-toggle="tooltip" data-bs-placement="top" title="Settings">
-                    <i className="bi bi-gear-fill"></i>
-                  </a>
-                  <a className="h5 mb-0 text-body" href="index-2.html" data-bs-toggle="tooltip" data-bs-placement="top" title="Home">
-                    <i className="bi bi-globe"></i>
-                  </a>
-                  <button type='button' className="h5 mb-0 text-body" data-bs-toggle="tooltip"
+                  <button className="h5 mb-0 text-body btn btn-l" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Settings">
+                    <i className="bi bi-gear-fill bi-lg"></i>
+                  </button>
+                  <button type='button' className="h5 mb-0 text-body btn btn-l" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Sign out" onClick={adminLogout}>
-                    <i className="bi bi-power"></i>
+                    <i className="bi bi-power bi-lg"></i>
                   </button>
                 </div>
               </div>

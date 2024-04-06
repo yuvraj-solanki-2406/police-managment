@@ -20844,9 +20844,9 @@ fieldset:disabled .btn {
   }
 
   .navbar-expand-xl .navbar-brand .navbar-brand-item {
-    height: 36px;
+    height: 70px;
     display: block;
-    width: auto;
+    width: 180px;
   }
 
   .navbar-expand-xl .navbar-nav .dropdown>.dropdown-menu {
@@ -20938,7 +20938,9 @@ fieldset:disabled .btn {
 
 @media (max-width: 1199.98px) {
   .navbar-expand-xl .navbar-brand .navbar-brand-item {
-    height: 24px;
+    /* height: 24px; */
+    height: 54px;
+    width: 100px;
   }
 
   .navbar-expand-xl .navbar-brand {

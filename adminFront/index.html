@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Additional -->
     <link rel="stylesheet" href="/CSS/style.css" />
+    <link rel="stylesheet" href="/CSS/styles_home.css" />
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com/" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
@@ -14,8 +15,21 @@
       href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&amp;family=Roboto:wght@400;500;700&amp;display=swap"
     />
     <!-- Vendor Files -->
-    <link rel="stylesheet" type="text/css" href="/assets/bootstrap-icons/bootstrap-icons.css">
-	  <link rel="stylesheet" type="text/css" href="/assets/font-awesome/css/all.min.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/assets/bootstrap-icons/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/assets/font-awesome/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <title>Admin Panel</title>
   </head>
@@ -23,7 +37,30 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="./public/JS/functions.js"></script>
-    <script src="./public/assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/JS/functions.js"></script>
+    <script src="/assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Swiper JS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        spaceBetween: 20,
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          dynamicBullets: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    </script>
   </body>
 </html>
