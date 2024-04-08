@@ -9,6 +9,8 @@ const { validateJwtToken } = require('../utils/validateToken')
 const multer = require('multer')
 const { getAllCaseCategory, addCaseCategory, deleteCaseCategory, updateCaseCategory, singleCaseCategory } = require('../controllers/adminCaseCategory')
 const { viewAllAttendence, viewDateWiseAttendence } = require('../controllers/adminAttendence')
+const { viewAdminAllUpdates, addNewUpdate, adminViewAllComplain } = require('../controllers/adminUpdates')
+const { adminViewReservePolice, adminAddReservePolice } = require('../controllers/adminReserveForce')
 
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
@@ -50,5 +52,15 @@ router.get("/attendence", validateJwtToken, viewAllAttendence)
 // Admin date wise attendence
 router.get("/attendencestatus", validateJwtToken, viewDateWiseAttendence);
 
+// Admin Updates
+router.get('/updates', validateJwtToken, viewAdminAllUpdates)
+router.post('/addupdate', validateJwtToken, addNewUpdate)
+
+// Admin View Complain
+router.get('/allcomplains', validateJwtToken, adminViewAllComplain)
+
+// Admin Reserve Force
+router.get('/reservepolice', validateJwtToken, adminViewReservePolice)
+router.post('/addreservepolice', validateJwtToken, adminAddReservePolice)
 
 module.exports = router

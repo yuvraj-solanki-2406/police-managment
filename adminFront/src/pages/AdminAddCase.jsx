@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebase";
 
 function AdminAddCase() {
 
     const caseCategor = ["Murder", "Kidnapping", "Theaft", "Robbery"]
-    const assignedJawan = ["Ramesh", "Suresh", "Mahesh", "Kamlesh"]
+    // const assignedJawan = ["Ramesh", "Suresh", "Mahesh", "Kamlesh"]
     const navigate = useNavigate();
+
+    const [imageUpload, setImageUpload] = useState(null);
+    const [imageUrls, setImageUrls] = useState();
 
     const [formData, setFormData] = useState({
         "title": "",
@@ -28,10 +33,27 @@ function AdminAddCase() {
         }));
     }
 
+    const uploadFile = () => {
+        if (imageUpload == null) return;
+        const imageRef = ref(storage, `images/${imageUpload.name + Date.now()}`);
+        uploadBytes(imageRef, imageUpload)
+            .then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((url) => {
+                    // setImageUrls((prev) => [...prev, url]);
+                    // img_url = url || "url pending"
+                    setImageUrls(url);
+                });
+            });
+    };
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
         try {
+            uploadFile();
+            console.log(imageUrls)
+            formData.caseRecords[0] = imageUrls;
+
             const res = await fetch('http://localhost:3000/api/admin/addcase', {
                 method: "POST",
                 headers: {
@@ -44,8 +66,7 @@ function AdminAddCase() {
             if (res.status == 200) {
                 res.json().then((response) => {
                     alert(response.message)
-                })
-                navigate('/admin/cases')
+                });
             }
         } catch (error) {
             console.log("Error occured in saving case details");
@@ -68,9 +89,9 @@ function AdminAddCase() {
         })
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         getAllJawans()
-    },[]);
+    }, []);
 
     return (
         <>
@@ -90,7 +111,7 @@ function AdminAddCase() {
                                 <h3 className="card-header-title mb-0">Add Case Details</h3>
                             </div>
                             <div className="card-body">
-                                <form className='row g-4 px-2' method='POST' onSubmit={handleFormSubmit}>
+                                <form className='row g-4 px-2' method='POST' onSubmit={handleFormSubmit} encType='multipart/form-data'>
                                     {/*<!-- Case Title -->*/}
                                     <div className="col-12">
                                         <label className="form-label">Case Title</label>
@@ -145,6 +166,14 @@ function AdminAddCase() {
                                                     ))
                                                 }
                                             </select>
+                                        </div>
+                                    </div>
+                                    {/*<!-- Case assigned Officer -->*/}
+                                    <div className="col-md-6">
+                                        <label className="form-label">Avaliable Situation Image</label>
+                                        <div className="input-group">
+                                            <input type="file" className="form-control" name="caseRecords"
+                                                onChange={(e) => { setImageUpload(e.target.files[0]) }} />
                                         </div>
                                     </div>
 

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import JawanSidebar from '../../components/Jawan/JawanSidebar';
-import JawanHeader from '../../components/Jawan/JawanHeader';
+import JawanHeader from '../../components/Jawan/JawanHeader'
+import JawanSidebar from '../../components/Jawan/JawanSidebar'
+import { useNavigate, useParams } from 'react-router-dom'
 
-function JawanCases() {
+function JawanCaseDetail() {
     const [jawanData, setJawanData] = useState(null)
-    const [jawanCaseData, setJawanCaseData] = useState(null)
+    const [caseDetail, setCaseDetail] = useState(null)
+    const params = useParams();
+    const case_id = params.id;
 
     const navigate = useNavigate()
     useEffect(() => {
@@ -17,38 +19,38 @@ function JawanCases() {
         };
     }, []);
 
-    const getAssignedCase = async () => {
-        let j_id = JSON.parse(localStorage.getItem("jawan_data"))._id;
-
-        const response = await fetch(`http://localhost:3000/api/jawan/jawancases/${j_id}`, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-                "authorization": localStorage.getItem("jawanAuthKey")
+    const getSingleCaseDetail = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/jawan/jawansinglecases/${case_id}`, {
+                method: "GET",
+                headers: {
+                    "authorization": localStorage.getItem("jawanAuthKey"),
+                    "Content-type": "application/json",
+                },
+            });
+            if (response.ok) {
+                response.json().then((res) => {
+                    setCaseDetail(res.data)
+                    console.log(res)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            } else {
+                console.log("no response");
             }
-        });
-        if (response.status == 200) {
-            response.json().then((res) => {
-                // console.log("Response ", res)
-                setJawanCaseData(res);
-            }).catch((err) => {
-                console.log(err)
-            })
+        } catch (error) {
+            console.log(error);
         }
-    };
-
+    }
+    // Get Case Detail
     useEffect(() => {
-        if (jawanData != null) {
-        }
-        getAssignedCase();
-    }, []);
+        getSingleCaseDetail()
+    }, [])
 
-    let count = 1;
 
     return (
         <>
             <JawanHeader />
-
             <main>
                 {/* Banner Section */}
                 <section className="pt-0">
@@ -93,12 +95,6 @@ function JawanCases() {
                                                     </li>
                                                 </ul>
                                             </div>
-                                            {/* <!-- Button -->
-                                            <div className="mt-2 mt-sm-0">
-                                                <Link to='/jawan/attendence' className="btn btn-outline-primary mb-0">
-                                                    Mark Attendence
-                                                </Link>
-                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -118,6 +114,7 @@ function JawanCases() {
                     </div>
                 </section>
 
+                {/* main section */}
                 {/* main content section */}
                 <section className="pt-0">
                     <div className="container">
@@ -125,55 +122,61 @@ function JawanCases() {
                             {/* <!-- Left sidebar START --> */}
                             <JawanSidebar />
 
-                            {/* main content */}
                             <div className="col-xl-9">
                                 {/* jawan Cases */}
-                                <h3>Jawan All Cases</h3>
-                                <div className="container-fluid p-1">
-                                    <table className='table table-bordered table-hover'>
-                                        <thead>
-                                            <tr>
-                                                <th>S.No</th>
-                                                <th>Title</th>
-                                                <th>Case Category</th>
-                                                <th>Location</th>
-                                                <th>Details</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                jawanCaseData ?
-                                                    jawanCaseData.data.map((item, key) => (
-                                                        <tr key={key}>
-                                                            <td>{count++}</td>
-                                                            <td>{item.title}</td>
-                                                            <td>{item.caseCategory}</td>
-                                                            <td>{item.location}</td>
-                                                            <td>
-                                                                <Link to={`/jawan/casedetail/${item._id}`}
-                                                                    className="btn btn-primary">
-                                                                    Details
-                                                                </Link>
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                    :
-                                                    <tr>
-                                                        <td>
-                                                            ...Loading
-                                                        </td>
-                                                    </tr>
-                                            }
-                                        </tbody>
-                                    </table>
+                                <h3>Case Detail</h3>
+                                <div className="container shadow p-4 rounded-4">
+                                    <div className="row">
+                                        <div className="col-6">
+                                            <div className="row">
+                                                <div className="col-6"><h6 className='text-black-50'>Case Title </h6></div>
+                                                <div className="col-6"><h6 className='text-blue'>{caseDetail ? caseDetail.title : ""}</h6></div>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="row">
+                                                <div className="col-6"><h6 className='text-black-50'>Case Location </h6></div>
+                                                <div className="col-6"><h6 className='text-blue'>{caseDetail ? caseDetail.location : ""}</h6></div>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="row">
+                                                <div className="col-6"><h6 className='text-black-50'>Assigned Jawan </h6></div>
+                                                <div className="col-6"><h6 className='text-blue'>{jawanData ? jawanData.fullname : ""}</h6></div>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="row">
+                                                <div className="col-6"><h6 className='text-black-50'>Case Category </h6></div>
+                                                <div className="col-6"><h6 className='text-blue'>{caseDetail ? caseDetail.caseCategory : ""}</h6></div>
+                                            </div>
+                                        </div>
+                                        <div className="col-6 my-3">
+                                            <div className="row">
+                                                <div className="col-6"><h6 className='text-black-50'>Event Timing</h6></div>
+                                                <div className="col-6"><h6 className='text-blue'>{caseDetail ? new Date(caseDetail.dateTime).toDateString() : ""}</h6></div>
+                                            </div>
+                                        </div>
+                                        <div className="col-6 my-3">
+                                            <div className="row">
+                                                <div className="col-6"><h6 className='text-black-50'>Case Current Status</h6></div>
+                                                <div className="col-6"><h6 className='text-blue'>{caseDetail ? caseDetail.remarks : ""}</h6></div>
+                                            </div>
+                                        </div>
+                                        <div className="col-12">
+                                            <h6 className='text-black-50'>Case Proof</h6>
+                                            <img src={caseDetail ? caseDetail.caseRecords[0] : "No on ground situation image"} alt="" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
+
             </main>
         </>
     )
 }
 
-export default JawanCases
+export default JawanCaseDetail

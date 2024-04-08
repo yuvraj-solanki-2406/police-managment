@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import { toast } from 'react-toastify/dist/core'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AdminLogin() {
     const navigate = useNavigate()
@@ -26,6 +28,7 @@ function AdminLogin() {
                     // setAdminAuthKey(response.jwtToken);
                     navigate('/admin')
                 }
+                toast.success(response.message)
                 alert(response.message)
             }
         ).catch((err) => console.log(err))

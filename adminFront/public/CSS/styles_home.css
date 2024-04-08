@@ -172,3 +172,9 @@ footer {
     object-fit: fill;
     margin: auto;
 }
+
+.table_image_rf{
+    width: 100px;
+    height: auto;
+    object-fit: contain;
+}

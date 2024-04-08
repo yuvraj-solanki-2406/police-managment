@@ -18,6 +18,12 @@ import AdminJawanAttendence from './pages/AdminJawanAttendence'
 import Community from './pages/common/Community'
 import Complain from './pages/common/Complain'
 import FakeNews from './pages/common/FakeNews'
+import AdminNotice from './pages/AdminNotice'
+import AdminAddNotice from './pages/AdminAddNotice'
+import AdminViewAllComplain from './pages/AdminViewAllComplain'
+import JawanCaseDetail from './pages/Jawan/JawanCaseDetail'
+import AdminReserveForce from './pages/AdminReserveForce'
+import AdminAddReserveForce from './pages/AdminAddReserveForce'
 // import { ToastContainer } from 'react-toastify'
 // import 'react-toastify/dist/ReactToastify.css';
 
@@ -78,6 +84,7 @@ function App() {
           <Route path='attendence' element={<JawanAttendence />}></Route>
           <Route path='allcases' element={<JawanCases />}></Route>
           <Route path='editprofile' element={<JawanProfile />}></Route>
+          <Route path='casedetail/:id' element={<JawanCaseDetail />}></Route>
         </Route>
 
         {/* Admin Routes */}
@@ -91,6 +98,11 @@ function App() {
           <Route path='jawanlist' element={<AdminJawanList />}></Route>
           <Route path='addjawan' element={<AdminAddJawan />}></Route>
           <Route path='jawan/attendence' element={<AdminJawanAttendence />}></Route>
+          <Route path='notices' element={<AdminNotice />}></Route>
+          <Route path='addnotice' element={<AdminAddNotice />}></Route>
+          <Route path='viewcomplain' element={<AdminViewAllComplain />}></Route>
+          <Route path='reserveforces' element={<AdminReserveForce />}></Route>
+          <Route path='addreserve' element={<AdminAddReserveForce />}></Route>
         </Route>
       </Routes>
 

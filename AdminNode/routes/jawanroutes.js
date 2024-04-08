@@ -10,7 +10,7 @@ const router = express.Router()
 
 router.post("/login", validateLogin, jawanLogin)
 router.get("/jawancases/:id", validateJwtToken, jawanAssignedCases)
-router.get("/jawansinglecases/:id", validateJwtToken, jawanSingleCaseDetail)
+router.get("/jawansinglecases/:id", jawanSingleCaseDetail)
 
 // Jawan Attendence
 router.post("/mark_attendence", validateJwtToken, markJawanAttendence)

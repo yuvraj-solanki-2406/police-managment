@@ -9,11 +9,22 @@ function AdminCasesList() {
     const [caseData, setCaseData] = useState([]);
     const tableRef = useRef();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Fetch all cases
-                const caseResponse = await fetch("http://localhost:3000/api/admin/cases", {
+    const fetchData = async () => {
+        try {
+            // Fetch all cases
+            const caseResponse = await fetch("http://localhost:3000/api/admin/cases", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": localStorage.getItem("adminAuthKey")
+                }
+            });
+
+            if (caseResponse.ok) {
+                const caseData = await caseResponse.json();
+
+                // Fetch all jawans
+                const jawanResponse = await fetch('http://localhost:3000/api/admin/jawans', {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -21,36 +32,24 @@ function AdminCasesList() {
                     }
                 });
 
-                if (caseResponse.ok) {
-                    const caseData = await caseResponse.json();
+                if (jawanResponse.ok) {
+                    const jawanData = await jawanResponse.json();
+                    const jawanMap = new Map(jawanData.data.map(jawan => [jawan._id, jawan.fullname]));
 
-                    // Fetch all jawans
-                    const jawanResponse = await fetch('http://localhost:3000/api/admin/jawans', {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "authorization": localStorage.getItem("adminAuthKey")
-                        }
-                    });
+                    // Update caseData with jawan names
+                    const updatedCaseData = caseData.data.map(caseItem => ({
+                        ...caseItem,
+                        assignedJawan: jawanMap.get(caseItem.assignedJawan)
+                    }));
 
-                    if (jawanResponse.ok) {
-                        const jawanData = await jawanResponse.json();
-                        const jawanMap = new Map(jawanData.data.map(jawan => [jawan._id, jawan.fullname]));
-
-                        // Update caseData with jawan names
-                        const updatedCaseData = caseData.data.map(caseItem => ({
-                            ...caseItem,
-                            assignedJawan: jawanMap.get(caseItem.assignedJawan)
-                        }));
-
-                        setCaseData(updatedCaseData);
-                    }
+                    setCaseData(updatedCaseData);
                 }
-            } catch (error) {
-                console.error("Error fetching data:", error);
             }
-        };
-
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+    useEffect(() => {
         fetchData();
     }, []);
 

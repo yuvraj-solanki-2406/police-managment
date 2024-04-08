@@ -37,8 +37,9 @@ function AdminSidebar() {
               <ul className="navbar-nav flex-column" id="navbar-sidebar">
 
                 {/*<!-- Menu item 1 -->*/}
-                <li className="nav-item"><Link to='/admin' className="nav-link active">
-                  <i className="bi bi-house fa-fw me-2"></i>Dashboard</Link></li>
+                <li className="nav-item"><Link to='/admin' className="nav-link">
+                  <i className="bi bi-house fa-fw me-2"></i>Dashboard</Link>
+                </li>
 
                 {/*<!-- Title -->*/}
                 <li className="nav-item ms-2 my-2">Pages</li>
@@ -83,13 +84,19 @@ function AdminSidebar() {
                 </li>
 
                 {/*<!-- Menu item 3 -->*/}
-                <li className="nav-item"> <a className="nav-link" href="admin-student-list.html">
-                  <i className="fas fa-user fa-fw me-2"></i>Reserve Forces</a>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin/reserveforces">
+                  <i className="fas fa-user fa-fw me-2"></i>Reserve Forces</Link>
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link" href="admin-setting.html">
-                    <i className="fas fa-user-cog fa-fw me-2"></i>Admin Settings</a>
+                  <Link className="nav-link" to="/admin/notices">
+                    <i className="fas fa-pen fa-fw me-2"></i>Share Notice</Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin/viewcomplain">
+                    <i className="fas fa-user-cog fa-fw me-2"></i>User Complains</Link>
                 </li>
 
                 {/* <li className="nav-item">

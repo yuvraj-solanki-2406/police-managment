@@ -6,15 +6,15 @@ import { storage } from "../../firebase";
 function Complain() {
 
     const [imageUpload, setImageUpload] = useState(null);
-    const [imageUrls, setImageUrls] = useState();
+    const [imageUrls, setImageUrls] = useState(null);
     const [formData, setFormData] = useState({
         fullname: "",
         email: "",
         phone: "",
-        c_title: "",
-        c_description: "",
-        c_address: "",
-        c_image: ""
+        com_title: "",
+        com_desc: "",
+        location: "",
+        com_image: ""
     });
 
     const handleFormData = (e) => {
@@ -41,27 +41,28 @@ function Complain() {
         try {
             uploadFile();
             // let img = imageUrls[imageUrls.length - 1]
-            console.log(imageUrls, " --> ")
-            formData.c_image = imageUrls;
-            console.log(formData);
-            const res = await fetch('http://localhost:3000/api/user/addcomplain', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": localStorage.getItem("adminAuthKey")
-                },
-                body: JSON.stringify(formData)
-            });
-            res.json().then(
-                (response) => {
-                    if (response.status == 200) {
-                        alert(response.message)
-                        // navigate('/jawanlist')
-                    } else {
-                        console.log(response.error.details[0].message)
+            console.log(imageUrls)
+            formData.com_image = imageUrls ? imageUrls : null;
+            if (imageUrls != null) {
+                console.log(formData);
+                const res = await fetch('http://localhost:3000/api/user/addcomplain', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                });
+                res.json().then(
+                    (response) => {
+                        if (res.status == 200) {
+                            alert(response.message)
+                            // navigate('/jawanlist')
+                        } else {
+                            console.log(response.error.details[0].message)
+                        }
                     }
-                }
-            ).catch((err) => console.log(err));
+                ).catch((err) => console.log(err));
+            }
         } catch (error) {
             alert("Some Error Occured at Front End")
             console.log(error)
@@ -250,28 +251,28 @@ function Complain() {
                                 {/*<!-- Location -->*/}
                                 <div className="col-md-6">
                                     <label className="form-label text-black">Complain Location</label>
-                                    <input className="form-control" type="text" name="c_address" placeholder='Complain Address'
-                                        onChange={handleFormData} value={formData.c_address} required />
+                                    <input className="form-control" type="text" name="location" placeholder='Complain Address'
+                                        onChange={handleFormData} value={formData.location} required />
                                 </div>
 
                                 {/*<!-- Complain Issue -->*/}
                                 <div className="col-md-6">
                                     <label className="form-label text-black">Complain Title</label>
-                                    <input className="form-control" type="text" name="c_title" placeholder='Complain Title'
-                                        onChange={handleFormData} value={formData.c_title} required />
+                                    <input className="form-control" type="text" name="com_title" placeholder='Complain Title'
+                                        onChange={handleFormData} value={formData.com_title} required />
                                 </div>
 
                                 {/*<!-- Complain Description -->*/}
                                 <div className="col-md-12">
                                     <label className="form-label text-black">Complain Description</label>
-                                    <textarea className="form-control" rows={4} name="c_detail" placeholder='Complain Description'
-                                        onChange={handleFormData} value={formData.c_desctiption} required />
+                                    <textarea className="form-control" rows={4} name="com_desc" placeholder='Complain Description'
+                                        onChange={handleFormData} value={formData.com_desc} required />
                                 </div>
 
                                 {/*<!-- Complain Image -->*/}
                                 <div className="col-md-6">
                                     <label className="form-label text-black">Complain Image</label>
-                                    <input className="form-control" type="file" name="c_image"
+                                    <input className="form-control" type="file" name="com_image"
                                         onChange={(e) => { setImageUpload(e.target.files[0]) }} required />
                                     <span className="m-1 text-mute">Add image for proof</span>
                                 </div>

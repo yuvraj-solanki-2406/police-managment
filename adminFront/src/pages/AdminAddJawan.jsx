@@ -110,7 +110,7 @@ function AdminAddJawan() {
     return (
         <>
             <main>
-                {/* Admin Adiebar */}
+                {/* Admin Sidebar */}
                 <AdminSidebar />
                 <div className="page-content">
                     {/* Admin Header */}

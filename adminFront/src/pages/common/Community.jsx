@@ -1,8 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 function Community() {
     const arr = [1, 2, 3, 4, 5]
+    const [notices, setNotices] = useState([]);
+
+    useEffect(() => {
+        const getAllNotices = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/api/user/notices", {
+                    method: "GET",
+                    headers: {
+                        "content-type": "application/json",
+                        "authorization": localStorage.getItem("adminAuthKey")
+                    },
+                });
+                if (response.ok) {
+                    response.json().then((res) => {
+                        setNotices(res.data);
+                        console.log(JSON.stringify(res.data))
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+                };
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        getAllNotices();
+    }, []);
+
     return (
         <>
             <main>
@@ -79,26 +107,22 @@ function Community() {
                         </div>
                         <div className="col-12 col-md-6 ms-2 container">
                             {
-                                arr.map((item, idx) => (
-                                    <div className="single_post mb-4 border rounded-3 shadow-sm" key={idx}>
-                                        <div className="card">
-                                            <img className="card-img-top img_comm_card" src={`../../images/p${idx + 1}.jpg`} alt="Title" />
-                                            <div className="card-body">
-                                                <h4 className="card-title">Get aware of the known person near your area</h4>
-                                                <p className="card-text text-dark" style={{textAlign: "justify"}}>
-                                                    The certain raise in the case of theft and robbery in the colonies have
-                                                    led to the disruption in the behaviour and lifestlye of the citizens, there
-                                                    is nothing to worry about the robbery as MP Police is alway with the citizens
-                                                    and the sole aim of Mp Police is to make the people sleep peacefully. With
-                                                    increase in robbery cases, MP Police have increased the patrolling in such areas.
-                                                    It is also the duty of aware citizens that they should complain about any
-                                                    unusal activity in there area like some complaining about the suspicious people
-                                                    who are moving in your area.
-                                                </p>
+                                notices.length > 1 ?
+                                    notices.map((item, idx) => (
+                                        <div className="single_post mb-4 border rounded-3 shadow-sm" key={idx}>
+                                            <div className="card">
+                                                <img className="card-img-top img_comm_card" src={item.image} alt="Title" />
+                                                <div className="card-body">
+                                                    <h4 className="card-title">{item.title}</h4>
+                                                    <p className="card-text text-dark" style={{ textAlign: "justify" }}>
+                                                        {item.description}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))
+                                    ))
+                                    :
+                                    <p className='loadingData text-center'>...Loading</p>
                             }
                         </div>
                     </div>

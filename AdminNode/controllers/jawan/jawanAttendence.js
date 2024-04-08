@@ -1,5 +1,6 @@
 const attendencemodel = require('../../models/Attendence')
 const jawanModel = require('../../models/JawansModel')
+const mongoose = require('mongoose')
 
 
 const markJawanAttendence = async (req, res) => {
@@ -8,7 +9,7 @@ const markJawanAttendence = async (req, res) => {
         let curr_date = formData.date;
         let j_id = formData.jawan_id;
 
-        const ams = await attendencemodel.find({ jawan_id: j_id, date: curr_date })
+        const ams = await attendencemodel.find({ jawan_id: j_id, date: curr_date });
         if (ams.length === 0) {
             // Create a new instance of the attendance model
             const newAttendance = new attendencemodel({
@@ -38,25 +39,28 @@ const markJawanAttendence = async (req, res) => {
 }
 
 
-const jawanMonthlyAttendence = async (req, res, month) => {
-    const startDate = new Date(2024, month, 1); // First day of the month
-    const endDate = new Date(2024, month + 1, 0); // Last day of the month
-    const userId = req.params.id;
-
+const jawanMonthlyAttendence = async (req, res) => {
     try {
+        let month = new Date().getMonth();
+
+        const startDate = new Date(2024, month, 1); // First day of the month
+        const endDate = new Date(2024, month + 1, 0); // Last day of the month
+        const userId = req.params.id;
+
         const userData = await attendencemodel.aggregate([
             {
                 $match: {
-                    jawan_id: mongoose.Types.ObjectId(userId), // Convert user ID to ObjectId
+                    jawan_id: userId, // Convert user ID to ObjectId
                     date: { $gte: startDate, $lte: endDate } // Filter by date range
                 }
             }
         ]);
-        res.status(200).json({ message: "Attendence monthwise", data: userData })
+
+        res.status(200).json({ message: "Attendance monthwise", data: userData });
     } catch (error) {
         console.error("Error retrieving user data:", error);
-        res.status(500).json({ message: "Internal server error" })
+        res.status(500).json({ message: "Internal server error" });
     }
-}
+};
 
 module.exports = { markJawanAttendence, jawanMonthlyAttendence }

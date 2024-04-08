@@ -1,9 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 document.title = "Mp Police"
 
 function HomePage() {
+    const notify = () => toast.warning("Wow so easy!");
     return (
         <>
             <main>
@@ -166,6 +169,10 @@ function HomePage() {
                     </div>
                 </section>
 
+                <div>
+                    <button onClick={notify}>Notify!</button>
+                    <ToastContainer />
+                </div>
                 <footer>
                     <p>&copy; 2023 My Web Page. All rights reserved.</p>
                 </footer>

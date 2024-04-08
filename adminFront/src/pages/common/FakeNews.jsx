@@ -127,7 +127,7 @@ function FakeNews() {
                                                 Identify Fake News
                                             </Link>
                                             <Link className='list-group-item'
-                                                to="/">
+                                                to="/community">
                                                 <i className="bi bi-pen fa-fw me-2"></i>
                                                 Updates
                                             </Link>
@@ -153,8 +153,8 @@ function FakeNews() {
                         </div>
                         <div className="col-12 col-md-8 ms-2">
                             {/* Prediction */}
-                            <div className="prediction shadow-sm p-2 rounded-2">
-                                {prediction ? (
+                            <div className="prediction p-2 rounded-2">
+                                {prediction.length ? (
                                     prediction.suggestions ? (
                                         <div className='fake_news'>
                                             <h5 className='text-center text-danger'>Alert it is a {prediction.classification}</h5>

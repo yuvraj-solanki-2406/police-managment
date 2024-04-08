@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { json, Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AdminHeader() {
 
@@ -33,7 +35,8 @@ function AdminHeader() {
         if (adminAuthKey) {
             localStorage.removeItem("user_data");
             localStorage.removeItem("adminAuthKey");
-            alert("Logout Successgully")
+            // alert("Logout Successgully")
+            toast.success("Logout Successfull")
             navigate('/admin/login')
         }
     }
